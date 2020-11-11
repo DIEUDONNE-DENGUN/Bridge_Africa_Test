@@ -13,8 +13,8 @@
 
 ##Getting Started
 
+
        This application highly makes use of the power of dependency injection of components at three level layers (service, repository and form request) into the service container
-       
        These instructions will get you a copy of the project up and running on your local machine 
        for development and testing purposes. 
        See deployment for notes on how to deploy the project on an apache  system.
