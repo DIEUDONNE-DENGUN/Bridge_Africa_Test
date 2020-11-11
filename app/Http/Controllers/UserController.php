@@ -10,6 +10,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\SignUpRequest;
+use App\Http\Requests\UpdateProfileRequest;
 use App\Services\Interfaces\UtilityServiceInterface;
 use App\Services\Interfaces\UserServiceInterface;
 use Illuminate\Support\Facades\Auth;
@@ -87,6 +88,35 @@ class UserController extends Controller
         $user = Auth::user();
         $data['user'] = $user;
         return view("dashboard")->with($data);
+    }
+
+    public function showEditProfilePage()
+    {
+        if (!$this->utilityService->hasSessionValue('isLoggedIn')) {
+            return redirect('login');
+        }
+        $user = Auth::user();
+        $data['user'] = $user;
+        return view("update_profile")->with($data);
+    }
+
+    public function updateProfile(UpdateProfileRequest $request)
+    {
+        if (!$this->utilityService->hasSessionValue('isLoggedIn')) {
+            return redirect('login');
+        }
+        $user = Auth::user();
+        $user_name = $request->get('name');
+        $phone = $request->get('phone_number');
+        $update_account_dto = ["name" => $user_name, "phone_number" => $phone];
+        //update profile
+        $user_account = $this->userService->updateUserAccount($update_account_dto, $user->id);
+        if ($user_account) {
+            $request->session()->flash('message', 'User account updated successfully!');
+            return redirect()->route('dashboard');
+        } else {
+            return redirect()->back()->withErrors(['Unable to update profile details. Please try again']);
+        }
     }
 
     public function deleteUserAccount()

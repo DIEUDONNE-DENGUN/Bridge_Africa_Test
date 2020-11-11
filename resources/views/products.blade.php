@@ -10,7 +10,14 @@
             </h5>
             <hr style="border-width: 6px"/>
             <div class="row">
-                <div class="col-md-7"></div>
+                <div class="col-md-4"></div>
+                <div class="col-md-3">
+                    <a href="{{url('edit_profile')}}"
+                       style="font-size: 14px; font-weight: bold;" class="card-link">
+                        <button type="button" class="btn btn-primary btn" style="color:white">Edit Profile
+                        </button>
+                    </a>
+                </div>
                 <div class="col-md-2">
                     <a href="{{url('logout')}}"
                        style="font-size: 14px; font-weight: bold;" class="card-link">

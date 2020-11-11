@@ -15,6 +15,9 @@ Route::get('/', function () {
     return redirect('login');
 });
 
+/*
+ * account management
+ */
 Route::get('login', 'UserController@showLoginPage');
 Route::post('login', 'UserController@login');
 Route::get('logout', 'UserController@logout');
@@ -25,6 +28,12 @@ Route::post('register', 'UserController@signUp');
 Route::get('user/account', 'UserController@showUserAccount')->name('dashboard');
 Route::get('account/delete', 'UserController@deleteUserAccount');
 
+Route::get('edit_profile', 'UserController@showEditProfilePage');
+Route::post('update_profile', 'UserController@updateProfile');
+
+/*
+ * manage product
+ */
 Route::get('add_product', 'ProductController@showAddProductPage');
 Route::post('add_product', 'ProductController@addProduct');
 
