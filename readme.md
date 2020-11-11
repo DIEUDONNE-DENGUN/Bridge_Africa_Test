@@ -15,6 +15,8 @@
 
 
        This application highly makes use of the power of dependency injection of components at three level layers (service, repository and form request) into the service container
+       Application also include test cases for effective deployment
+       
        These instructions will get you a copy of the project up and running on your local machine 
        for development and testing purposes. 
        See deployment for notes on how to deploy the project on an apache  system.
@@ -26,6 +28,7 @@
      4) Kindly open a terminal or command line tool and cd into the project directory
      4) run the following this command to run this database table migrations (products and users) : php artisan migrate
      5) Launched web run and access application from browser computer like : http://hostname:port/project_dir/public
+     6) To run test cases, open root project directory on terminal and run command : ./vendor/bin/phpunit
  ##Built With
  
      Laravel 5.8 framework
