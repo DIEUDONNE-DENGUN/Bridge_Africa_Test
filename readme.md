@@ -31,7 +31,7 @@
      6) To run test cases, open root project directory on terminal and run command : ./vendor/bin/phpunit
  ##Built With
  
-     Laravel 5.8 framework
+     Laravel framework
      User Interface based on bootstrap 4.5.2 (NB: used the cdn version, requires internet to load application views properly)
      Jquery jquery-3.5.1 (NB: used the cdn version, requires internet to load application views properly)
              
