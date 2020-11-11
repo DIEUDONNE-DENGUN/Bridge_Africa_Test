@@ -18,4 +18,6 @@ interface UtilityServiceInterface
     public function forgetSessionByKey($key);
 
     public function clearSession();
+
+    public function getCurrentLoggedUser();
 }

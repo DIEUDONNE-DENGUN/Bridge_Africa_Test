@@ -12,7 +12,6 @@ use App\Http\Requests\UpdateProductRequest;
 use App\Services\Interfaces\UtilityServiceInterface;
 use App\Services\Interfaces\ProductServiceInterface;
 use App\Services\Interfaces\UserServiceInterface;
-use Illuminate\Support\Facades\Auth;
 
 class ProductController extends Controller
 {
@@ -30,7 +29,7 @@ class ProductController extends Controller
         if (!$this->utilityService->hasSessionValue('isLoggedIn')) {
             return redirect('login');
         }
-        $data['user'] = Auth::user();
+        $data['user'] = $this->utilityService->getCurrentLoggedUser();
         return view('add_product_form')->with($data);
     }
 
@@ -45,7 +44,7 @@ class ProductController extends Controller
         $price = $request->get('product_price');
         $product_image = $request->file('product_image');
         $add_product_dto = ["name" => $product_name, "description" => $product_description,
-            "quantity" => $quantity, "price" => $price, "image_path" => $product_image,"user_id"=>Auth::user()->id];
+            "quantity" => $quantity, "price" => $price, "image_path" => $product_image, "user_id" => $this->utilityService->getCurrentLoggedUser()->id];
         //save product
         $product = $this->productService->saveProduct($add_product_dto);
         if ($product) {
@@ -66,7 +65,7 @@ class ProductController extends Controller
             return redirect()->back()->withErrors(['Whoops!, product with this id does not exist']);
         }
         $data['product'] = $product;
-        $data['user'] = Auth::user();
+        $data['user'] = $this->utilityService->getCurrentLoggedUser();
         return view('edit_product_form')->with($data);
     }
 
@@ -93,9 +92,9 @@ class ProductController extends Controller
         if (!$this->utilityService->hasSessionValue('isLoggedIn')) {
             return redirect('login');
         }
-        $products = $userService->getUserProducts(Auth::user()->id);
+        $products = $userService->getUserProducts($this->utilityService->getCurrentLoggedUser()->id);
         $data['products'] = $products;
-        $data['user'] = Auth::user();
+        $data['user'] = $this->utilityService->getCurrentLoggedUser();
         return view("products")->with($data);
     }
 

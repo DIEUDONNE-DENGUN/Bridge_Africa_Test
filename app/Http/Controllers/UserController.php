@@ -13,7 +13,6 @@ use App\Http\Requests\SignUpRequest;
 use App\Http\Requests\UpdateProfileRequest;
 use App\Services\Interfaces\UtilityServiceInterface;
 use App\Services\Interfaces\UserServiceInterface;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
@@ -85,8 +84,7 @@ class UserController extends Controller
         if (!$this->utilityService->hasSessionValue('isLoggedIn')) {
             return redirect('login');
         }
-        $user = Auth::user();
-        $data['user'] = $user;
+        $data['user'] = $this->utilityService->getCurrentLoggedUser();;
         return view("dashboard")->with($data);
     }
 
@@ -95,8 +93,7 @@ class UserController extends Controller
         if (!$this->utilityService->hasSessionValue('isLoggedIn')) {
             return redirect('login');
         }
-        $user = Auth::user();
-        $data['user'] = $user;
+        $data['user'] = $this->utilityService->getCurrentLoggedUser();
         return view("update_profile")->with($data);
     }
 
@@ -105,7 +102,7 @@ class UserController extends Controller
         if (!$this->utilityService->hasSessionValue('isLoggedIn')) {
             return redirect('login');
         }
-        $user = Auth::user();
+        $user = $this->utilityService->getCurrentLoggedUser();
         $user_name = $request->get('name');
         $phone = $request->get('phone_number');
         $update_account_dto = ["name" => $user_name, "phone_number" => $phone];
@@ -125,7 +122,7 @@ class UserController extends Controller
         if (!$this->utilityService->hasSessionValue('isLoggedIn')) {
             return redirect('login');
         }
-        $user = Auth::user();
+        $user = $this->utilityService->getCurrentLoggedUser();
         //check if user has any products
         $user_products = $this->userService->getUserProducts($user->id);
         if (!$user_products->isEmpty()) {

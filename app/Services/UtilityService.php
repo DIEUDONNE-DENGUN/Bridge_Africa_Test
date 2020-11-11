@@ -8,6 +8,7 @@ namespace App\Services;
 
 use Illuminate\Http\Request;
 use App\Services\Interfaces\UtilityServiceInterface;
+use Illuminate\Support\Facades\Auth;
 
 class UtilityService implements UtilityServiceInterface
 {
@@ -42,5 +43,11 @@ class UtilityService implements UtilityServiceInterface
     {
         $this->request->session()->flush();
     }
+
+    public function getCurrentLoggedUser()
+    {
+        return Auth::user();
+    }
+
 
 }
