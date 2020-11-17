@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Dtos\ProductDTO;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateProductRequest extends FormRequest
@@ -30,5 +31,16 @@ class UpdateProductRequest extends FormRequest
             $rules['product_image'] = 'required|max:3000|mimes:jpg,jpeg,png';
         }
         return $rules;
+    }
+
+    /*
+     * @Author:Dieudonne Dengun
+     * @Date: 17/11/2020
+     */
+    public function getProductDTO()
+    {
+        $product_image = $this->hasFile("product_image") ? $this->file('product_image') : "";
+        return (array)new ProductDTO($this->input('product_name'), $this->input('product_description'),
+            $this->input('product_quantity'), $this->input('product_price'), $product_image);
     }
 }

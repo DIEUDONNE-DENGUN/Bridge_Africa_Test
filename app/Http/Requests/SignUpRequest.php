@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests;
 
+use App\Dtos\UserDTO;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Hash;
 
 class SignUpRequest extends FormRequest
 {
@@ -26,5 +28,11 @@ class SignUpRequest extends FormRequest
         return ['email' => 'required|email', 'name' => 'required',
             'phone_number' => 'required', 'password' => 'required|min:6|confirmed',
             'password_confirmation' => 'required'];
+    }
+
+    public function getUserDTO()
+    {
+        return (array)new UserDTO($this->input('name'), $this->input('email'),
+            $this->input('phone_number'), Hash::make($this->input('password')));
     }
 }

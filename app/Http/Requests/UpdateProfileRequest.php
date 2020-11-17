@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Dtos\UserDTO;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateProfileRequest extends FormRequest
@@ -24,5 +25,14 @@ class UpdateProfileRequest extends FormRequest
     public function rules()
     {
         return ['name' => 'required', 'phone_number' => 'required'];
+    }
+
+    public function getUserDto()
+    {
+        $data = (array)new UserDTO($this->input('name'), '',
+            $this->input('phone_number'), '');
+        unset($data['email']);
+        unset($data['password']);
+        return $data;
     }
 }

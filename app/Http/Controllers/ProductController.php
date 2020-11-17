@@ -38,13 +38,8 @@ class ProductController extends Controller
         if (!$this->utilityService->hasSessionValue('isLoggedIn')) {
             return redirect('login');
         }
-        $product_name = $request->get('product_name');
-        $product_description = $request->get('product_description');
-        $quantity = $request->get('product_quantity');
-        $price = $request->get('product_price');
-        $product_image = $request->file('product_image');
-        $add_product_dto = ["name" => $product_name, "description" => $product_description,
-            "quantity" => $quantity, "price" => $price, "image_path" => $product_image, "user_id" => $this->utilityService->getCurrentLoggedUser()->id];
+        $add_product_dto = $request->getProductDTO();
+        $add_product_dto["user_id"] = $this->utilityService->getCurrentLoggedUser()->id;
         //save product
         $product = $this->productService->saveProduct($add_product_dto);
         if ($product) {
@@ -71,14 +66,7 @@ class ProductController extends Controller
 
     public function updateProduct(UpdateProductRequest $request, $product_id)
     {
-        $product_name = $request->get('product_name');
-        $product_description = $request->get('product_description');
-        $quantity = $request->get('product_quantity');
-        $price = $request->get('product_price');
-        $product_image = $request->hasFile("product_image") ? $request->file('product_image') : "";
-
-        $update_product_dto = ["name" => $product_name, "description" => $product_description,
-            "quantity" => $quantity, "price" => $price, "image_path" => $product_image];
+        $update_product_dto = $request->getProductDTO();
         //update product
         $product = $this->productService->updateProduct($update_product_dto, $product_id);
         if ($product) {

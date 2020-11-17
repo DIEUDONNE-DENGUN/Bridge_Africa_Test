@@ -25,4 +25,9 @@ class LoginRequest extends FormRequest
     {
         return ['email' => 'required|email', 'password' => 'required'];
     }
+
+    public function getLoginDto()
+    {
+        return (object)['email' => $this->input('email'), 'password' => $this->input('password')];
+    }
 }

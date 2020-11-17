@@ -38,11 +38,10 @@ class UserController extends Controller
     //login user if username and password match
     public function login(LoginRequest $request)
     {
-        $username = $request->get('email');
-        $password = $request->get('password');
+        $login_dto = $request->getLoginDto();
         //authenticate user
-        if (!$this->userService->isValidUsernamePassword($username, $password)) {
-            return redirect()->back()->withErrors(['Invalid Username/Passwowrd commbination']);
+        if (!$this->userService->isValidUsernamePassword($login_dto->email, $login_dto->password)) {
+            return redirect()->back()->withErrors(['Invalid username/password combination']);
         }
         //login user into the system
         $this->utilityService->addSessionData("isLoggedIn", true);
@@ -61,13 +60,7 @@ class UserController extends Controller
     //create a new user account
     public function signUp(SignUpRequest $request)
     {
-        $email = $request->get('email');
-        $phone_number = $request->get('phone_number');
-        $name = $request->get('name');
-        $password = $request->get("password");
-        $create_account_dto = ["name" => $name, "email" => $email,
-            "phone_number" => $phone_number, "password" => Hash::make($password)
-        ];
+        $create_account_dto = $request->getUserDTO();
         //save user account details
         $user_account = $this->userService->saveUserAccount($create_account_dto);
         if ($user_account) {
@@ -103,9 +96,7 @@ class UserController extends Controller
             return redirect('login');
         }
         $user = $this->utilityService->getCurrentLoggedUser();
-        $user_name = $request->get('name');
-        $phone = $request->get('phone_number');
-        $update_account_dto = ["name" => $user_name, "phone_number" => $phone];
+        $update_account_dto = $request->getUserDto();
         //update profile
         $user_account = $this->userService->updateUserAccount($update_account_dto, $user->id);
         if ($user_account) {
