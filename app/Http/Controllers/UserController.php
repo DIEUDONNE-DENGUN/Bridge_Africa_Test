@@ -61,6 +61,10 @@ class UserController extends Controller
     public function signUp(SignUpRequest $request)
     {
         $create_account_dto = $request->getUserDTO();
+        //check email exist
+        if ($this->userService->emailExist($create_account_dto['email'])) {
+            return redirect()->back()->withErrors(['Sorry!, a user with this email already exist. Try again']);
+        }
         //save user account details
         $user_account = $this->userService->saveUserAccount($create_account_dto);
         if ($user_account) {
